@@ -25,7 +25,7 @@ contract ContestApp {
 
     mapping(uint => Contest) public contests;
 
-    event ContestCreated(
+    event contestCreated(
         address contest_organizer,
         uint id,
         uint stage, //0: Contest to be set, 1: Ongoing, 2: Judge statge, 3: Finished
@@ -56,7 +56,7 @@ contract ContestApp {
     function createContest(string memory _basis, string memory _deadline, string memory _resolution_deadline, string memory _award) public {
         contestCount ++;
         contests[contestCount] = Contest(msg.sender, contestCount, 0, _basis, _deadline, _resolution_deadline, _award, 0, 0);
-        emit ContestCreated(msg.sender, contestCount, 0, _basis, _deadline, _resolution_deadline, _award, 0);
+        emit contestCreated(msg.sender, contestCount, 0, _basis, _deadline, _resolution_deadline, _award, 0);
     }
 
     function setContestOngioing(uint _id) public {
