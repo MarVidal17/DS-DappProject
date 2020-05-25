@@ -5,8 +5,9 @@ App = {
     load: async () => {
       await App.loadWeb3()
       await App.loadAccount()
-      await App.loadContract()
+      await App.loadContest()
       await App.render()
+      console.log('App loading...')
     },
   
     // https://medium.com/metamask/https-medium-com-metamask-breaking-change-injecting-web3-7722797916a8
@@ -45,16 +46,17 @@ App = {
     loadAccount: async () => {
       // Set the current blockchain account
       App.account = web3.eth.accounts[0]
+      console.log(App.account)
     },
-  
-    loadContract: async () => {
+
+    loadContest: async () => {
       // Create a JavaScript version of the smart contract
-      const todoList = await $.getJSON('TodoList.json')
-      App.contracts.TodoList = TruffleContract(todoList)
-      App.contracts.TodoList.setProvider(App.web3Provider)
+      const contestApp = await $.getJSON('ContestApp.json')
+      App.contracts.contestApp = TruffleContract(contestApp)
+      App.contracts.contestApp.setProvider(App.web3Provider)
   
       // Hydrate the smart contract with values from the blockchain
-      App.todoList = await App.contracts.TodoList.deployed()
+      App.contestApp = await App.contracts.contestApp.deployed()
     },
   
     render: async () => {
@@ -69,57 +71,135 @@ App = {
       // Render Account
       $('#account').html(App.account)
   
-      // Render Tasks
-      await App.renderTasks()
+      // Render Contests
+      await App.renderContests()
   
       // Update loading state
       App.setLoading(false)
     },
   
-    renderTasks: async () => {
+    renderContests: async () => {
       // Load the total task count from the blockchain
-      const taskCount = await App.todoList.taskCount()
-      const $taskTemplate = $('.taskTemplate')
+      const contestCount = await App.contestApp.contestCount()
+      const $contestTemplate = $('.contestTemplate')
   
       // Render out each task with a new task template
-      for (var i = 1; i <= taskCount; i++) {
+      for (var i = 1; i <= contestCount; i++) {
         // Fetch the task data from the blockchain
-        const task = await App.todoList.tasks(i)
-        const taskId = task[0].toNumber()
-        const taskContent = task[1]
-        const taskCompleted = task[2]
-  
-        // Create the html for the task
-        const $newTaskTemplate = $taskTemplate.clone()
-        $newTaskTemplate.find('.content').html(taskContent)
-        $newTaskTemplate.find('input')
-                        .prop('name', taskId)
-                        .prop('checked', taskCompleted)
-                        .on('click', App.toggleCompleted)
-  
-        // Put the task in the correct list
-        if (taskCompleted) {
-          $('#completedTaskList').append($newTaskTemplate)
-        } else {
-          $('#taskList').append($newTaskTemplate)
+        const contest = await App.contestApp.contests(i)
+        const contestId = contest[1].toNumber()
+        const contestStage_num = contest[2].toNumber()
+        const contestTitle = contest[3]
+        const contestBasis = contest[4]
+        const contestDeadline = contest[5]
+        const contestResolution_deadline = contest[6]
+        const contestAward = contest[7]
+        const contestContestantsCount = contest[8].toNumber()
+        const contestWinner_id = contest[9]
+        const contestContestants = contest[10]
+
+        var contestStage = ''
+        var contestWinner = ''
+        switch(contestStage_num) {
+          case 1:
+            contestStage = 'Ongoing'
+            break;
+          case 2:
+            contestStage = 'Being judged'
+            break;
+          case 3:
+            contestStage = 'Finished'
+            contestWinner = await App.contestApp.get_contestant_name(i, contestWinner_id)
+            break;
+          default:
+            contestStage = 'Contest to start'
         }
   
+        // Create the html for the task
+        const $newContestTemplate = $contestTemplate.clone()
+        $newContestTemplate.find('.contest_id').html(contestId)
+        $newContestTemplate.find('.stage').html(contestStage)
+        $newContestTemplate.find('.title').html(contestTitle)
+        $newContestTemplate.find('.basis').html(contestBasis)
+        $newContestTemplate.find('.deadline').html(contestDeadline)
+        $newContestTemplate.find('.resolution').html(contestResolution_deadline)
+        $newContestTemplate.find('.award').html(contestAward)
+        $newContestTemplate.find('.contestants_count').html(contestContestantsCount)
+        $newContestTemplate.find('.winner').html(contestWinner)
+
+        $('#contestList').append($newContestTemplate)
+
+  
         // Show the task
-        $newTaskTemplate.show()
+        $newContestTemplate.show()
       }
     },
 
-    createTask: async () => {
+    getContestants: async () => {
+      const id = $('#idContest_contestants').val()
+      const contest = await App.contestApp.contests(id)
+      const contestContestantsCount = contest[8].toNumber()
+
+      const $contestInfoTemplate = $('.contestInfoTemplate')
+      $contestInfoTemplate.find('.contestants_contest_id').html(id)
+      $contestInfoTemplate.find('.contestants_contest_title').html(contest[3])
+      $('#contestInfo').append($contestInfoTemplate)
+      $contestInfoTemplate.show()
+
+      const $contestantsTemplate = $('.contestantsTemplate')
+
+      for (var i = 1; i <= contestContestantsCount; i++) {
+        contestant_name = await App.contestApp.get_contestant_name(id, i)
+
+        const $newContestantsTemplate = $contestantsTemplate.clone()
+        $newContestantsTemplate.find('.contestant_id').html(i)
+        $newContestantsTemplate.find('.name').html(contestant_name)
+
+        $('#contestantsList').append($newContestantsTemplate)
+
+        // Show the task
+        $newContestantsTemplate.show()
+      }
+    },
+
+    createContest: async () => {
       App.setLoading(true)
-      const content = $('#newTask').val()
-      await App.todoList.createTask(content)
+      const title = $('#newContestTitle').val()
+      const basis = $('#newContestBasis').val()
+      const deadline = $('#newContestDeadline').val()
+      const resolution = $('#newContestResolution').val()
+      const award = $('#newContestAward').val()
+      await App.contestApp.createContest(title, basis, deadline, resolution, award)
       window.location.reload()
     },
 
-    toggleCompleted: async (e) => {
+    setContestOngioing: async () => {
       App.setLoading(true)
-      const taskId = e.target.name
-      await App.todoList.toggleCompleted(taskId)
+      const id = $('#idContest_ongoing').val()
+      await App.contestApp.setContestOngioing(id)
+      window.location.reload()
+    },
+
+    setContestJudgeStage: async () => {
+      App.setLoading(true)
+      const id = $('#idContest_resolution').val()
+      await App.contestApp.setContestJudgeStage(id)
+      window.location.reload()
+    },
+
+    setWinner: async () => {
+      App.setLoading(true)
+      const id = $('#idContest_setwinner').val()
+      const winner_id = $('#winnerid_setwinner').val()
+      await App.contestApp.setWinner(id, winner_id)
+      window.location.reload()
+    },
+
+    participate: async () => {
+      App.setLoading(true)
+      const id =$('#idContest_participate').val()
+      const name = $('#contestant_name').val()
+      await App.contestApp.participate(id, name)
       window.location.reload()
     },
   

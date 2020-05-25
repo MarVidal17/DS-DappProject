@@ -14,6 +14,7 @@ contract ContestApp {
         address contest_organizer;
         uint id;
         uint stage; //0: Contest to be set, 1: Ongoing, 2: Resolution statge, 3: Finished
+        string title;
         string basis;
         string deadline;
         string resolution_deadline;
@@ -29,6 +30,7 @@ contract ContestApp {
         address contest_organizer,
         uint id,
         uint stage, //0: Contest to be set, 1: Ongoing, 2: Judge statge, 3: Finished
+        string title,
         string basis,
         string deadline,
         string resolution_deadline,
@@ -53,10 +55,16 @@ contract ContestApp {
         string contestant_name
     );
 
-    function createContest(string memory _basis, string memory _deadline, string memory _resolution_deadline, string memory _award) public {
+    function get_contestant_name(uint _id, uint _contestant_id) public view returns(string memory) {
+        Contest storage _contest = contests[_id];
+        Contestant memory _contestant = _contest.contestants[_contestant_id];
+        return _contestant.name;
+    }
+
+    function createContest(string memory _title, string memory _basis, string memory _deadline, string memory _resolution_deadline, string memory _award) public {
         contestCount ++;
-        contests[contestCount] = Contest(msg.sender, contestCount, 0, _basis, _deadline, _resolution_deadline, _award, 0, 0);
-        emit contestCreated(msg.sender, contestCount, 0, _basis, _deadline, _resolution_deadline, _award, 0);
+        contests[contestCount] = Contest(msg.sender, contestCount, 0, _title, _basis, _deadline, _resolution_deadline, _award, 0, 0);
+        emit contestCreated(msg.sender, contestCount, 0, _title, _basis, _deadline, _resolution_deadline, _award, 0);
     }
 
     function setContestOngioing(uint _id) public {

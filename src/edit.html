@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <title>Contest application</title>
+
+    <!-- Bootstrap -->
+     <!-- https://www.bootstrapcdn.com/ -->
+     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet"
+     integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <!-- Bootstrap Minty theme -->
+    <link href="https://stackpath.bootstrapcdn.com/bootswatch/4.5.0/minty/bootstrap.min.css" rel="stylesheet" 
+    integrity="sha384-HqaYdAE26lgFCJsUF9TBdbZf7ygr9yPHtxtg37JshqVQi6CCAo6Qvwmgc5xclIiV" crossorigin="anonymous">
+    <!-- Bootstrap fonts -->
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"
+        integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <style>
+      main {
+        margin-top: 50px;
+      }
+      hr{
+          margin-top: 50px;
+        }
+    </style>
+
+  </head>
+  <body>
+    <nav class="navbar navbar-expand-md navbar-dark bg-primary">
+      <div class="container">
+          <a class="navbar-brand" href="index.html" style="font-size:30px">Contest application</a>
+          <div class="collapse navbar-collapse" id="navbarResponsive">
+            <li class="nav-item dropdown" style="color:whitesmoke; margin-bottom: 15px;">
+              <a class="nav-link dropdown-toggle" style="color:whitesmoke" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Menú
+              </a>
+              <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                <a class="dropdown-item" href="form.html">Create contest</a>
+                <a class="dropdown-item" href="contests.html">List of contests</a>
+                <a class="dropdown-item" href="contestants.html">List of contestants</a>
+                <a class="dropdown-item" href="edit.html">Participate | Update</a>
+              </div>
+            </li>
+        </div>
+          <ul class="navbar-nav px-3">
+            <li class="nav-item text-nowrap d-none d-sm-none d-sm-block">
+              <small><div style="color:whitesmoke">Your account:</div><div id="account" style="color:whitesmoke"></div></small>
+            </li>
+      </div>
+    </nav>
+    <div class="container">
+        <main role="main">
+          <div id="loader" class="text-center">
+            <p class="text-center">Loading...</p>
+          </div>
+          <div id="content">
+            <h5 class="border border-warning rounded text-center bg-warning text-dark py-4">
+              <strong">Participate or update your contest:</strong>
+            </h5>
+            <br>
+            <form onSubmit="App.participate(); return false;">
+              <div class="form-row border-bottom border-warning text-right">
+                <div class="form-group col-md-2">
+                  <label class="col-form-label text-dark">Contest number:</label>
+                </div>
+                <div class="form-group col-md-2">
+                  <input class="form-control form-control" type="text" id="idContest_participate">
+                </div>
+                <div class="form-group col-md-2">
+                  <label class="col-form-label text-dark">Name:</label>
+                </div>
+                <div class="form-group col-md-2">
+                  <input class="form-control form-control" type="text" id="contestant_name">
+                </div>
+                <div class="form-group col-md-1">
+                </div>
+                <div class="form-group col-md-3 text-center">
+                  <button type="submit" class="btn btn-warning btn-rounded col-md-9 text-dark">Participate</button>
+                </div>
+              </div>
+            </form>
+            <br>
+            <form onSubmit="App.setContestOngioing(); return false;">
+              <div class="form-row border-bottom border-warning text-right">
+                <div class="form-group col-md-2">
+                  <label class="col-form-label text-dark">Contest number:</label>
+                </div>
+                <div class="form-group col-md-2">
+                  <input class="form-control form-control" type="text" id="idContest_ongoing">
+                </div>
+                <div class="form-group col-md-2">
+                </div>
+                <div class="form-group col-md-3">
+                </div>
+                <div class="form-group col-md-3 text-center">
+                  <button type="submit" class="btn btn-warning btn-rounded col-md-9 text-dark">Set Ongoing</button>
+                </div>
+              </div>
+            </form>
+            <br>
+            <form onSubmit="App.setContestJudgeStage(); return false;">
+              <div class="form-row border-bottom border-warning text-right">
+                <div class="form-group col-md-2">
+                  <label class="col-form-label text-dark">Contest number:</label>
+                </div>
+                <div class="form-group col-md-2">
+                  <input class="form-control form-control" type="text" id="idContest_resolution">
+                </div>
+                <div class="form-group col-md-2">
+                </div>
+                <div class="form-group col-md-3">
+                </div>
+                <div class="form-group col-md-3 text-center">
+                  <button type="submit" class="btn btn-warning btn-rounded col-md-9 text-dark">Set Resolution Stage</button>
+                </div>
+              </div>
+            </form>
+            <br>
+            <form onSubmit="App.setWinner(); return false;">
+              <div class="form-row border-bottom border-warning text-right">
+                <div class="form-group col-md-2">
+                  <label class="col-form-label text-dark">Contest number:</label>
+                </div>
+                <div class="form-group col-md-2">
+                  <input class="form-control form-control" type="text" id="idContest_setwinner">
+                </div>
+                <div class="form-group col-md-2">
+                  <label class="col-form-label text-dark">Winner id:</label>
+                </div>
+                <div class="form-group col-md-2">
+                  <input class="form-control form-control" type="text" id="winnerid_setwinner">
+                </div>
+                <div class="form-group col-md-1">
+                </div>
+                <div class="form-group col-md-3 text-center">
+                  <button type="submit" class="btn btn-warning btn-rounded col-md-9 text-dark">Set Winner</button>
+                </div>
+              </div>
+            </form>
+            </div>
+          <hr>
+          <footer id="footer">
+              <div class="row">
+                  <div class="col-lg-12">
+                    <small><p>DS Project 2020 - Mar Vidal Segura
+                        <span class="pull-right">Made with
+                              <a target="_blank" href="http://getbootstrap.com/">Bootstrap 4</a>
+                          using <a target="_blank" href="https://bootswatch.com/minty/">Minty</a> theme.</span>
+                      </p></small>
+                  </div>
+              </div>
+          </footer>
+        </main>
+    </div>
+
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="vendor/bootstrap/dist/js/bootstrap.min.js"></script>
+    <script src="vendor/truffle-contract/dist/truffle-contract.js"></script>
+    <script src="app.js"></script>
+  </body>
+</html>

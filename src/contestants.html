@@ -25,14 +25,14 @@
       <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
 
-  <style>
-    main {
-      margin-top: 50px;
-    }
-    hr{
+    <style>
+      main {
         margin-top: 50px;
       }
-  </style>
+      hr{
+          margin-top: 50px;
+        }
+    </style>
 
   </head>
   <body>
@@ -58,29 +58,61 @@
             </li>
       </div>
     </nav>
+  <div class="container">
     <main role="main">
-      <div class="container">
-          <div class="jumbotron">
-            <h1 class="display-4">Welcome to the contest app!</h1>
-            <p class="lead">Choose if you want to create a new contest or check the ones already created:</p>
-            <hr class="my-4">
-            <a href="form.html" class="btn btn-warning text-dark">Create a new contest</a>
-            <a href="contests.html" class="btn btn-warning text-dark">Check contests</a>
-          </div>
-          <hr>
-          <footer id="footer">
-              <div class="row">
-                  <div class="col-lg-12">
-                    <small><p>DS Project 2020 - Mar Vidal Segura
-                        <span class="pull-right">Made with
-                              <a target="_blank" href="http://getbootstrap.com/">Bootstrap 4</a>
-                          using <a target="_blank" href="https://bootswatch.com/minty/">Minty</a> theme.</span>
-                      </p></small>
-                  </div>
-              </div>
-          </footer>
+      <div id="loader" class="text-center">
+        <p class="text-center">Loading...</p>
       </div>
+      <div id="content">
+        <form onSubmit="App.getContestants(); return false;">
+          <div class="form-row border-bottom border-warning text-right">
+            <div class="form-group col-md-2">
+              <label class="col-form-label text-dark">Contest number:</label>
+            </div>
+            <div class="form-group col-md-2">
+              <input class="form-control form-control" type="text" id="idContest_contestants">
+            </div>
+            <div class="form-group col-md-5"></div>
+            <div class="form-group col-md-3 text-center">
+              <button type="submit" class="btn btn-warning btn-rounded col-md-9 text-dark">Get Contestants</button>
+            </div>
+          </div>
+        </form>
+        <div class="contestInfoTemplate" style="display: none">
+          <div class="col-sm text-dark font-weight-bold"></div>
+            <span class="col-sm text-dark font-weight-bold">Contestants of contest</span>
+            <span class="col-sm text-dark font-weight-bold contestants_contest_id"></span>
+            <span class="col-sm text-dark font-weight-bold contestants_contest_title"></span>
+          </div>
+        </div>
+        <div class="contestantsTemplate" style="display: none">
+          <div class="col-sm text-dark">
+            <span class="contestant_id"></span>
+            <span>.</span>
+            <span class="name"></span>
+          </div>
+        </div>
+        <ul id="contestInfo" class="list-unstyled">
+          <div class="contestInfoTemplate" style="display: none">
+          </div>
+        </ul>
+        <ul id="contestantsList" class="list-unstyled">
+          <div class="contestantsTemplate" style="display: none">
+          </div>
+        </ul>
+      </div>
+      <hr>
+      <footer id="footer">
+        <div class="col-lg-12">
+          <small><p>DS Project 2020 - Mar Vidal Segura
+              <span class="pull-right">Made with
+                    <a target="_blank" href="http://getbootstrap.com/">Bootstrap 4</a>
+                using <a target="_blank" href="https://bootswatch.com/minty/">Minty</a> theme.</span>
+            </p></small>
+        </div>
+      </footer>
     </main>
+  </div>
 
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>

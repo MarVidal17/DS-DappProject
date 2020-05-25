@@ -25,14 +25,14 @@
       <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
 
-  <style>
-    main {
-      margin-top: 50px;
-    }
-    hr{
+    <style>
+      main {
         margin-top: 50px;
       }
-  </style>
+      hr{
+          margin-top: 50px;
+        }
+    </style>
 
   </head>
   <body>
@@ -58,29 +58,75 @@
             </li>
       </div>
     </nav>
+  <div class="container">
     <main role="main">
-      <div class="container">
-          <div class="jumbotron">
-            <h1 class="display-4">Welcome to the contest app!</h1>
-            <p class="lead">Choose if you want to create a new contest or check the ones already created:</p>
-            <hr class="my-4">
-            <a href="form.html" class="btn btn-warning text-dark">Create a new contest</a>
-            <a href="contests.html" class="btn btn-warning text-dark">Check contests</a>
-          </div>
-          <hr>
-          <footer id="footer">
-              <div class="row">
-                  <div class="col-lg-12">
-                    <small><p>DS Project 2020 - Mar Vidal Segura
-                        <span class="pull-right">Made with
-                              <a target="_blank" href="http://getbootstrap.com/">Bootstrap 4</a>
-                          using <a target="_blank" href="https://bootswatch.com/minty/">Minty</a> theme.</span>
-                      </p></small>
-                  </div>
-              </div>
-          </footer>
+      <div id="loader" class="text-center">
+        <p class="text-center">Loading...</p>
       </div>
+      <div id="content">
+        <div class="contestTemplate " style="display: none">
+            <div class="row border-top border-right border-left border-warning rounded-top">
+              <div class="col-sm border-warning bg-warning text-dark font-weight-bold">
+                <span class="contest_id"></span>
+                <span>-</span>
+                <span class="title"></span>
+              </div>
+              <div class="col-sm">
+                Stage:
+              </div>
+              <div class="col-sm">
+                Number of participants:
+              </div>
+              <div class="col-sm">
+               Winner:
+              </div>
+            </div>
+            <div class="row border-right border-left border-warning text-dark">
+              <div class="col-sm border-warning bg-warning text-dark"></div>
+              <div class="col-sm stage"></div>
+              <div class="col-sm contestants_count"></div>
+              <div class="col-sm winner"></div>
+            </div>
+            <div class="row border-right border-left border-warning">
+              <div class="col-sm">
+                Basis:
+              </div>
+              <div class="col-sm">
+                Deadline:
+              </div>
+              <div class="col-sm">
+                Resolution Deadline:
+              </div>
+              <div class="col-sm">
+                Award:
+              </div>
+            </div>
+            <div class="row border-bottom border-right border-left border-warning rounded-bottom text-dark">
+              <div class="col-sm basis"></div>
+              <div class="col-sm deadline"></div>
+              <div class="col-sm resolution"></div>
+              <div class="col-sm award"></div>
+            </div>
+        </div>
+        <ul id="contestList" class="list-unstyled">
+          <div class="contestTemplate" style="display: none">
+          </div>
+        </ul>
+      </div>
+      <hr>
+      <footer id="footer">
+          <div class="row">
+              <div class="col-lg-12">
+                <small><p>DS Project 2020 - Mar Vidal Segura
+                    <span class="pull-right">Made with
+                          <a target="_blank" href="http://getbootstrap.com/">Bootstrap 4</a>
+                      using <a target="_blank" href="https://bootswatch.com/minty/">Minty</a> theme.</span>
+                  </p></small>
+              </div>
+          </div>
+      </footer>
     </main>
+  </div>
 
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
