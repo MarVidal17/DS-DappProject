@@ -1,1 +1,3 @@
 # DS-DappProject
+
+Code from a project about the development of a smart contract and a webapp for contest application. The project comes from the motivation about providing a more reliable, cheaper and faster way to create contests without the middle institution, in this case, a notary. The solution proposed is a webapp with blockchain backend to provide security and safety to the app. The first part of the project was getting used to new languages and tools needed. After, the result was implemented. The result is a webapp formed by the smart contract implemented in Solidity and the client side developed in React. The deployment was done in a local blockchain network.

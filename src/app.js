@@ -79,13 +79,10 @@ App = {
     },
   
     renderContests: async () => {
-      // Load the total task count from the blockchain
       const contestCount = await App.contestApp.contestCount()
       const $contestTemplate = $('.contestTemplate')
   
-      // Render out each task with a new task template
       for (var i = 1; i <= contestCount; i++) {
-        // Fetch the task data from the blockchain
         const contest = await App.contestApp.contests(i)
         const contestId = contest[1].toNumber()
         const contestStage_num = contest[2].toNumber()
@@ -115,7 +112,6 @@ App = {
             contestStage = 'Contest to start'
         }
   
-        // Create the html for the task
         const $newContestTemplate = $contestTemplate.clone()
         $newContestTemplate.find('.contest_id').html(contestId)
         $newContestTemplate.find('.stage').html(contestStage)
@@ -130,7 +126,6 @@ App = {
         $('#contestList').append($newContestTemplate)
 
   
-        // Show the task
         $newContestTemplate.show()
       }
     },
