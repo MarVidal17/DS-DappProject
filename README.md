@@ -20,7 +20,7 @@ Web application and blockchain integration:
 * Truffle
 * Metamask
 
-Web applications development:
+Web development:
 * React
 * Bootstrap
 
